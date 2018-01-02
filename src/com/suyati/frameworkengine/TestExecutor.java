@@ -5,8 +5,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.Select;
@@ -167,6 +169,19 @@ public class TestExecutor {
 					System.out.println("clicked on "+logicalName);
 				}
 			}
+			else if(action.equals("accept alert")){
+				try{
+					Alert simpleAlert = Startup.driver.switchTo().alert();
+					System.out.println(simpleAlert.getText());
+					simpleAlert.accept();
+					
+				}catch(WebDriverException e)
+				{
+					System.out.println(e);
+				}
+		
+				
+			}
 			
 			else if(action.equals("clear")){
 				if(ele!=null){					
@@ -199,7 +214,7 @@ public class TestExecutor {
 					      System.out.println("***Found It ***"+foundit);
 					      lib.setExcelData(scenarioName, i, 5, "PASS");
 							lib.setExcelData(scenarioName, i, 6, "Found "+logicalName);
-							System.out.println("clicked on "+logicalName);
+							System.out.println("found it  on "+logicalName);
 					    }
 					    else
 					    {
