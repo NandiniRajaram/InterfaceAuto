@@ -130,6 +130,9 @@ public class TestExecutor {
 					ele=null;
 				}				
 			}
+
+			
+		
 			
 			
 			else if(elementIdMethod.equals("class")){
@@ -155,6 +158,7 @@ public class TestExecutor {
 					System.out.println("ele is null");
 				}
 			}
+			
 			else if(action.equals("click")){
 				if(ele!=null){					
 					ele.click();
@@ -182,6 +186,32 @@ public class TestExecutor {
 					lib.setExcelData(scenarioName, i, 6, "Waiting for "+data+" millisecond "+logicalName+" text box to be present");
 					System.out.println("Typed "+data+" into "+logicalName+" text box");
 				
+			}
+			
+			else if(action.equals("searchElement")){
+				try {
+					 Boolean foundit=null;
+					ele = Startup.driver.findElement(By.xpath(elementIdValue));
+					 List<WebElement> cells = ele.findElements(By.tagName("td"));
+					  for (WebElement cell : cells) {
+					    if (cell.getText().contains(data)) {
+					       foundit = true;
+					      System.out.println("***Found It ***"+foundit);
+					      lib.setExcelData(scenarioName, i, 5, "PASS");
+							lib.setExcelData(scenarioName, i, 6, "Found "+logicalName);
+							System.out.println("clicked on "+logicalName);
+					    }
+					    else
+					    {
+					    	foundit = false;	
+					    }
+					  }
+				} catch (Exception e) {
+					lib.setExcelData(scenarioName, i, 5, "FAIL");
+					lib.setExcelData(scenarioName, i, 6, "Element "+logicalName+" not found");
+					System.out.println("Link "+logicalName+" not found");
+					ele=null;
+				}				
 			}
 			
 			
