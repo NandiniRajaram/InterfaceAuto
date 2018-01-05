@@ -13,6 +13,7 @@ public class Settings {
 		TestExecutor exe = new TestExecutor();
 		exe.executeTest("Settings");
 		System.out.println("Ending Settings  scenario");
+		//sample
 	}
 
 }
