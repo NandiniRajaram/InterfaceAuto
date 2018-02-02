@@ -1,5 +1,6 @@
 package com.suyati.frameworkengine;
 
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -12,6 +13,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.Select;
 
+import com.suyati.tests.Search;
 import com.suyati.tests.Startup;
 
 public class TestExecutor {
@@ -189,6 +191,34 @@ public class TestExecutor {
 				System.out.println("Typed " + data + " into " + logicalName + " text box");
 
 			}
+			else if (action.equals("callSearchObject")) {
+				try{
+				SearchObject   se =new SearchObject(Startup.driver);
+				String siteName= se.SiteName();
+				System.out.println("Site Name:" +siteName);
+				String address = se.siteAddress();
+				System.out.println("Address:" + address);
+			
+				String  cityStateCode[] =se.cityStateCode().split(",");
+				String city = cityStateCode[0];
+				System.out.println("City: " +city);
+				String  StateCode[] =cityStateCode[1].split(" ");
+				String state = StateCode[1];
+				System.out.println("State :" + state);
+				String pincode= StateCode[2];
+				System.out.println("Zipcode : " +pincode );
+				lib.setExcelData(scenarioName, i, 5, "PASS");
+				lib.setExcelData(scenarioName, i, 6, "Verified the address");
+				
+				}catch(Exception e)
+				{
+					lib.setExcelData(scenarioName, i, 5, "FAIL");
+				}
+		
+
+				
+
+			}
 
 			else if (action.equals("searchElement")) {
 				try {
@@ -258,6 +288,9 @@ public class TestExecutor {
 				} else {
 					System.out.println("Title fails to match");
 				}
+		
+				
+				
 			} else if (action.equals("verifyText")) {
 				if (ele != null) {
 					String actualText = ele.getText();
@@ -284,6 +317,24 @@ public class TestExecutor {
 				}
 
 			}
+			
+			 else if (action.equals("verifyCurrentURL")) {
+					String actualURL = Startup.driver.getCurrentUrl();
+
+					if (data.equals(actualURL)) {
+						System.out.println("URL matches");
+						lib.setExcelData(scenarioName, i, 5, "PASS");
+						lib.setExcelData(scenarioName, i, 6, "Navigated to the Home page ");
+					} else {
+						System.out.println("Navigation to the Home Page Failed ");
+						lib.setExcelData(scenarioName, i, 5, "FAIL");
+						lib.setExcelData(scenarioName, i, 6, "Text doesnot matches : " + actualURL);
+					
+					}
+			
+					
+					
+				} 
 			// Modified by Nandini
 
 			else if (action.equals("getTextContent")) {
