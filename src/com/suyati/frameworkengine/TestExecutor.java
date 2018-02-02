@@ -191,6 +191,7 @@ public class TestExecutor {
 				System.out.println("Typed " + data + " into " + logicalName + " text box");
 
 			}
+
 			else if (action.equals("callSearchObject")) {
 				try{
 				SearchObject   se =new SearchObject(Startup.driver);
@@ -217,6 +218,16 @@ public class TestExecutor {
 		
 
 				
+
+			else if (action.equals("Querysitecount")) {
+
+				JdbcSQLServerConnection conne=new JdbcSQLServerConnection ();
+				 conne.queryexecution(data);
+				lib.setExcelData(scenarioName, i, 5, "PASS");
+				lib.setExcelData(scenarioName, i, 6,
+						"Waiting for " + data + " millisecond " + logicalName + " text box to be present");
+				System.out.println("Typed " + data + " into " + logicalName + " text box");
+
 
 			}
 
