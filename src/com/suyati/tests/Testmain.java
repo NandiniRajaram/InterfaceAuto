@@ -11,11 +11,14 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.remote.server.handler.SwitchToWindow;
 import org.openqa.selenium.support.ui.Select;
+
+
 
 
 
@@ -38,14 +41,32 @@ public class Testmain {
 		 * @throws IOException 
 		 */
 		public static void main(String[] args) throws InterruptedException, IOException {
-		
-			String client="Family Dollar";
-			/* String Query ="Select count(distinct s.CompanyNumber)  from oneviewV2.dbo.Site s Inner Join oneviewV2.dbo.System sy on s.Id=sy.SiteId " +
-        	 		 "where sy.code in ('IPNETW','BURG','VOIP','CCTV','INTVIDEO')  And (sy.Status = 'Active' Or sy.Status = 'Service Only')  and  s.tempclosed <> '1' and s.PermClosed  <> '1' "+
-        	 		 "and s.mastercompany ='Family Dollar'"; */
+			WebDriver driver;
+			System.setProperty("webdriver.chrome.driver",".//chromedriver.exe");
+			ChromeOptions options = new ChromeOptions();
+			/*options.addArguments("test-type");
+			options.addArguments("start-maximized");
+			options.addArguments("disable-infobars");
+			options.addArguments("--disable-extensions");  */
+			driver = new ChromeDriver();
+			WebElement ele;
 			
-			String wer="ddd "+client;
-        	 System.out.println(wer );			
+			driver.get("https://www.google.com/");
+			ele=driver.findElement(By.id("lst-ib"));
+			ele.sendKeys("Selenium");
+			Thread.sleep(4000);
+			//ffgg
+			ele=driver.findElement(By.xpath("//div[@class='sbsb_a']/ul/li[6]/div/div[2]/b"));
+			                         
+		
+			//ele=driver.findElement(By.xpath("//div[@class='sbsb_a']/ul/li/div/div[2]/b[contains(text(),'guru99')]"));
+            
+			System.out.println(ele.getText());
+			ele.click();
+
+		
+			
+				
 		}
 }
 
