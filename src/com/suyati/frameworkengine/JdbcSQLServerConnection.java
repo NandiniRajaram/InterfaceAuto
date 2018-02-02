@@ -19,7 +19,7 @@ public class JdbcSQLServerConnection {
     public static void main(String[] args) throws ClassNotFoundException {
     	JdbcSQLServerConnection conne =new JdbcSQLServerConnection();
     	String client="Family Dollar";
-      conne.queryexecution(client);
+      conne.addressverificationQuery("FDOL1442");
         }
     
 public void queryexecution(String client)
@@ -45,6 +45,54 @@ public void queryexecution(String client)
                   rs.next();
                   String result = rs.getString(1);
                   System.out.println(result);
+      	
+      } catch (SQLException ex) {
+          ex.printStackTrace();
+          System.out.println("inside catch");
+      } finally {
+          try {
+              if (conn != null && !conn.isClosed()) {
+                  conn.close();
+              }
+          } catch (SQLException ex) {
+              ex.printStackTrace();
+          }
+}
+}
+
+
+
+public void addressverificationQuery(String companynumber)
+{
+	  Connection conn = null;
+	  
+      try {
+      	  System.out.println("inside Try1");
+      	String connectionUrl = "jdbc:sqlserver://STLDEV01:1433;" +  
+      			   "databaseName=Oneviewv2;user=ISSPortal;password=Interf@ceP0rt@l";  
+      	
+      	
+
+      	 System.out.println("inside Try2:  "+connectionUrl);
+      	 String Query ="select Address,City,state,zip,name from site where companynumber ='" + companynumber +"'";
+      	 System.out.println(Query );
+      			Connection con = DriverManager.getConnection(connectionUrl); 
+      			Statement s1 = con.createStatement();
+      	
+                  ResultSet rs = s1.executeQuery(Query);
+                  
+                  rs.next();
+       /*           String result = rs.getString(1);
+                  String result1 = rs.getString(2);
+                  String result2 = rs.getString(3);
+                  String result3 = rs.getString(4);*/
+                  for (int i=1; i<5;i++)
+                  {
+                	  rs.getString(i);
+                	   System.out.println(  rs.getString(i));
+                  }
+               
+   
       	
       } catch (SQLException ex) {
           ex.printStackTrace();
