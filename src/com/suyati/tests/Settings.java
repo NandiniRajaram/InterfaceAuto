@@ -1,9 +1,8 @@
 package com.suyati.tests;
+
 import org.junit.Test;
 
 import com.suyati.frameworkengine.TestExecutor;
-
-
 
 public class Settings {
 
