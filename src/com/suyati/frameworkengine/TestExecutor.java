@@ -219,7 +219,7 @@ public class TestExecutor {
 
 			}	
 
-			else if (action.equals("Querysitecount")) {
+		/*	else if (action.equals("Querysitecount")) {
 
 				JdbcSQLServerConnection conne=new JdbcSQLServerConnection ();
 				 conne.queryexecution(data);
@@ -230,7 +230,7 @@ public class TestExecutor {
 
 
 			}
-
+*/
 			else if (action.equals("searchElement")) {
 				try {
 					Boolean foundit = null;
