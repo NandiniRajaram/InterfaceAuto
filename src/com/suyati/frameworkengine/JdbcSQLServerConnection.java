@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.sql.PreparedStatement;
 import java.sql.Driver;
 import java.sql.Statement;
+import java.util.ArrayList;
 /**
  * This program demonstrates how to establish database connection to Microsoft
  * SQL Server.
@@ -18,81 +19,52 @@ public class JdbcSQLServerConnection {
  
     public static void main(String[] args) throws ClassNotFoundException {
     	JdbcSQLServerConnection conne =new JdbcSQLServerConnection();
-    	String client="Family Dollar";
-      conne.addressverificationQuery("FDOL1442");
-        }
-    
-public void queryexecution(String client)
-{
-	  Connection conn = null;
-	  
-      try {
-      	  System.out.println("inside Try1");
-      	String connectionUrl = "jdbc:sqlserver://STLDEV01:1433;" +  
-      			   "databaseName=Oneviewv2;user=ISSPortal;password=Interf@ceP0rt@l";  
-      	
-      	
-
-      	 System.out.println("inside Try2:  "+connectionUrl);
-      	 String Query ="Select count(distinct s.CompanyNumber)  from oneviewV2.dbo.Site s Inner Join oneviewV2.dbo.System sy on s.Id=sy.SiteId " +
+    	ArrayList<String> it=new ArrayList();
+    	String companynumber="FDOL1442";
+    	 String Query ="select Address,City,state,zip,name from site where companynumber ='" + companynumber +"'";
+    	
+    	 
+    	 String client="Family Dollar";
+    	 String Query1 ="Select count(distinct s.CompanyNumber)  from oneviewV2.dbo.Site s Inner Join oneviewV2.dbo.System sy on s.Id=sy.SiteId " +
       	 		 "where sy.code in ('IPNETW','BURG','VOIP','CCTV','INTVIDEO')  And (sy.Status = 'Active' Or sy.Status = 'Service Only')  and  s.tempclosed <> '1' and s.PermClosed  <> '1' "+
       	 		 "and s.mastercompany ='" + client +"'";
-      	 System.out.println(Query );
-      			Connection con = DriverManager.getConnection(connectionUrl); 
-      			Statement s1 = con.createStatement();
-      	
-                  ResultSet rs = s1.executeQuery(Query);
-                  rs.next();
-                  String result = rs.getString(1);
-                  System.out.println(result);
-      	
-      } catch (SQLException ex) {
-          ex.printStackTrace();
-          System.out.println("inside catch");
-      } finally {
-          try {
-              if (conn != null && !conn.isClosed()) {
-                  conn.close();
-              }
-          } catch (SQLException ex) {
-              ex.printStackTrace();
-          }
-}
-}
+    	
+    	
+      it=conne.Queryexecution(Query);
+      for (String s: it)
+      {
+    	  System.out.println(s);
+      }
+        }
+    
 
 
 
-public void addressverificationQuery(String companynumber)
+public ArrayList Queryexecution(String Query)
 {
 	  Connection conn = null;
+	  ArrayList li=new  ArrayList();
 	  
       try {
-      	  System.out.println("inside Try1");
-      	String connectionUrl = "jdbc:sqlserver://STLDEV01:1433;" +  
-      			   "databaseName=Oneviewv2;user=ISSPortal;password=Interf@ceP0rt@l";  
-      	
-      	
+      	   System.out.println("inside Try1");
+      	   String connectionUrl = "jdbc:sqlserver://STLDEV01:1433;" +  
+      			   "databaseName=Oneviewv2;user=ISSPortal;password=Interf@ceP0rt@l";         	
 
-      	 System.out.println("inside Try2:  "+connectionUrl);
-      	 String Query ="select Address,City,state,zip,name from site where companynumber ='" + companynumber +"'";
-      	 System.out.println(Query );
-      			Connection con = DriverManager.getConnection(connectionUrl); 
-      			Statement s1 = con.createStatement();
-      	
-                  ResultSet rs = s1.executeQuery(Query);
-                  
-                  rs.next();
-       /*           String result = rs.getString(1);
-                  String result1 = rs.getString(2);
-                  String result2 = rs.getString(3);
-                  String result3 = rs.getString(4);*/
-                  for (int i=1; i<5;i++)
+      	   System.out.println("inside Try2:  "+connectionUrl);      	 
+      	   System.out.println(Query );
+      	   Connection con = DriverManager.getConnection(connectionUrl); 
+      	   Statement s1 = con.createStatement();      	
+           ResultSet rs = s1.executeQuery(Query);
+          
+           while(rs.next())
+              {                
+               for(int i=1;i<=rs.getMetaData().getColumnCount();i++)
                   {
-                	  rs.getString(i);
-                	   System.out.println(  rs.getString(i));
+            	
+                	li.add(rs.getString(i));
                   }
                
-   
+              } 
       	
       } catch (SQLException ex) {
           ex.printStackTrace();
@@ -101,10 +73,13 @@ public void addressverificationQuery(String companynumber)
           try {
               if (conn != null && !conn.isClosed()) {
                   conn.close();
+                  System.out.println("Finally");
+                  
               }
           } catch (SQLException ex) {
               ex.printStackTrace();
           }
 }
+	return li;
 }
 }
